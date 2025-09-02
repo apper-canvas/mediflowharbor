@@ -1,0 +1,82 @@
+[
+  {
+    "Id": 1,
+    "id": "D001",
+    "name": "Dr. James Anderson",
+    "role": "Doctor",
+    "department": "Cardiology",
+    "shift": "Day",
+    "contact": "(555) 111-2222",
+    "specialization": "Interventional Cardiology"
+  },
+  {
+    "Id": 2,
+    "id": "D002",
+    "name": "Dr. Maria Garcia",
+    "role": "Doctor", 
+    "department": "General Medicine",
+    "shift": "Day",
+    "contact": "(555) 222-3333",
+    "specialization": "Internal Medicine"
+  },
+  {
+    "Id": 3,
+    "id": "D003",
+    "name": "Dr. Robert Chen",
+    "role": "Surgeon",
+    "department": "Orthopedics",
+    "shift": "Day",
+    "contact": "(555) 333-4444", 
+    "specialization": "Joint Replacement"
+  },
+  {
+    "Id": 4,
+    "id": "D004",
+    "name": "Dr. Sarah Wilson",
+    "role": "Doctor",
+    "department": "Obstetrics",
+    "shift": "Day",
+    "contact": "(555) 444-5555",
+    "specialization": "High-Risk Pregnancies"
+  },
+  {
+    "Id": 5,
+    "id": "N001",
+    "name": "Nurse Jennifer Brown",
+    "role": "Nurse",
+    "department": "ICU",
+    "shift": "Night",
+    "contact": "(555) 555-6666",
+    "specialization": "Critical Care"
+  },
+  {
+    "Id": 6,
+    "id": "N002",
+    "name": "Nurse Michael Davis",
+    "role": "Nurse",
+    "department": "Emergency",
+    "shift": "Day",
+    "contact": "(555) 666-7777",
+    "specialization": "Emergency Medicine"
+  },
+  {
+    "Id": 7,
+    "id": "N003",
+    "name": "Nurse Lisa Thompson",
+    "role": "Nurse",
+    "department": "General",
+    "shift": "Day",
+    "contact": "(555) 777-8888",
+    "specialization": "General Care"
+  },
+  {
+    "Id": 8,
+    "id": "A001",
+    "name": "Admin Alice Johnson",
+    "role": "Administrator",
+    "department": "Administration",
+    "shift": "Day",
+    "contact": "(555) 888-9999",
+    "specialization": "Hospital Operations"
+  }
+]

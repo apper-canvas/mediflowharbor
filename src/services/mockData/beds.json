@@ -1,0 +1,102 @@
+[
+  {
+    "Id": 1,
+    "id": "B001",
+    "ward": "ICU",
+    "number": "101",
+    "type": "ICU",
+    "status": "Occupied",
+    "patientId": "P001",
+    "lastCleaned": "2024-01-22T08:00:00Z"
+  },
+  {
+    "Id": 2,
+    "id": "B002",
+    "ward": "ICU",
+    "number": "102",
+    "type": "ICU",
+    "status": "Available",
+    "patientId": null,
+    "lastCleaned": "2024-01-22T10:00:00Z"
+  },
+  {
+    "Id": 3,
+    "id": "B003",
+    "ward": "General",
+    "number": "201",
+    "type": "General",
+    "status": "Available",
+    "patientId": null,
+    "lastCleaned": "2024-01-22T09:00:00Z"
+  },
+  {
+    "Id": 4,
+    "id": "B004",
+    "ward": "General",
+    "number": "202",
+    "type": "General",
+    "status": "Maintenance",
+    "patientId": null,
+    "lastCleaned": "2024-01-21T15:00:00Z"
+  },
+  {
+    "Id": 5,
+    "id": "B005",
+    "ward": "General",
+    "number": "205",
+    "type": "General",
+    "status": "Occupied",
+    "patientId": "P002",
+    "lastCleaned": "2024-01-22T07:00:00Z"
+  },
+  {
+    "Id": 6,
+    "id": "B006",
+    "ward": "Cardiology",
+    "number": "302",
+    "type": "Specialty",
+    "status": "Occupied",
+    "patientId": "P003",
+    "lastCleaned": "2024-01-22T08:30:00Z"
+  },
+  {
+    "Id": 7,
+    "id": "B007",
+    "ward": "Emergency",
+    "number": "E01",
+    "type": "Emergency",
+    "status": "Occupied",
+    "patientId": "P005",
+    "lastCleaned": "2024-01-22T12:00:00Z"
+  },
+  {
+    "Id": 8,
+    "id": "B008",
+    "ward": "Emergency",
+    "number": "E02",
+    "type": "Emergency",
+    "status": "Available",
+    "patientId": null,
+    "lastCleaned": "2024-01-22T11:00:00Z"
+  },
+  {
+    "Id": 9,
+    "id": "B009",
+    "ward": "Maternity",
+    "number": "401",
+    "type": "Maternity",
+    "status": "Occupied",
+    "patientId": "P006",
+    "lastCleaned": "2024-01-22T09:30:00Z"
+  },
+  {
+    "Id": 10,
+    "id": "B010",
+    "ward": "Maternity",
+    "number": "402",
+    "type": "Maternity",
+    "status": "Available",
+    "patientId": null,
+    "lastCleaned": "2024-01-22T10:30:00Z"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "Id": 1,
+    "id": "A001",
+    "patientId": "P001",
+    "doctorId": "D001",
+    "department": "Cardiology",
+    "dateTime": "2024-01-23T09:00:00Z",
+    "duration": 30,
+    "type": "Consultation",
+    "status": "Scheduled",
+    "notes": "Follow-up for chest pain"
+  },
+  {
+    "Id": 2,
+    "id": "A002",
+    "patientId": "P002",
+    "doctorId": "D002", 
+    "department": "General Medicine",
+    "dateTime": "2024-01-23T10:30:00Z",
+    "duration": 45,
+    "type": "Check-up",
+    "status": "Scheduled",
+    "notes": "Routine physical examination"
+  },
+  {
+    "Id": 3,
+    "id": "A003",
+    "patientId": "P003",
+    "doctorId": "D003",
+    "department": "Orthopedics",
+    "dateTime": "2024-01-23T14:00:00Z",
+    "duration": 60,
+    "type": "Surgery",
+    "status": "Confirmed",
+    "notes": "Knee replacement surgery"
+  },
+  {
+    "Id": 4,
+    "id": "A004",
+    "patientId": "P004",
+    "doctorId": "D001",
+    "department": "Cardiology", 
+    "dateTime": "2024-01-24T11:00:00Z",
+    "duration": 30,
+    "type": "Follow-up",
+    "status": "Scheduled",
+    "notes": "Post-discharge follow-up"
+  },
+  {
+    "Id": 5,
+    "id": "A005",
+    "patientId": "P006",
+    "doctorId": "D004",
+    "department": "Obstetrics",
+    "dateTime": "2024-01-23T16:00:00Z",
+    "duration": 30,
+    "type": "Prenatal",
+    "status": "Scheduled",
+    "notes": "Regular prenatal checkup"
+  }
+]
