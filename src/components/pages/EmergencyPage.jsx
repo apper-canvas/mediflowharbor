@@ -20,14 +20,14 @@ const EmergencyPage = () => {
   const [error, setError] = useState("");
   const [showAdmissionForm, setShowAdmissionForm] = useState(false);
   const [triageQueue, setTriageQueue] = useState([]);
-  const [newEmergencyPatient, setNewEmergencyPatient] = useState({
-    name: "",
-    dateOfBirth: "",
-    gender: "",
-    contact: "",
-    emergencyContact: "",
-    bloodType: "",
-    allergies: [],
+const [newEmergencyPatient, setNewEmergencyPatient] = useState({
+    name_c: "",
+    date_of_birth_c: "",
+    gender_c: "",
+    contact_c: "",
+    emergency_contact_c: "",
+    blood_type_c: "",
+    allergies_c: "",
     chiefComplaint: "",
     triagePriority: "Low",
     vitalSigns: {
@@ -37,8 +37,8 @@ const EmergencyPage = () => {
       respiratoryRate: "",
       oxygenSaturation: ""
     },
-    currentWard: "Emergency",
-    status: "Critical"
+    current_ward_c: "Emergency",
+    status_c: "Critical"
   });
 
   const triagePriorities = [
@@ -58,8 +58,8 @@ const EmergencyPage = () => {
         bedService.getAll()
       ]);
 
-      const emergencyPts = allPatients.filter(p => p.currentWard === "Emergency" || p.status === "Critical");
-      const emergencyBds = allBeds.filter(b => b.ward === "Emergency");
+const emergencyPts = allPatients.filter(p => (p.current_ward_c || p.currentWard) === "Emergency" || (p.status_c || p.status) === "Critical");
+      const emergencyBds = allBeds.filter(b => (b.ward_c || b.ward) === "Emergency");
       
       setEmergencyPatients(emergencyPts);
       setEmergencyBeds(emergencyBds);
@@ -91,9 +91,9 @@ const EmergencyPage = () => {
       // Find an available emergency bed
       const availableBed = emergencyBeds.find(bed => bed.status === "Available");
       
-      const patientData = {
+const patientData = {
         ...newEmergencyPatient,
-        bedNumber: availableBed ? availableBed.number : "E01"
+        bed_number_c: availableBed ? (availableBed.number_c || availableBed.number) : "E01"
       };
 
       await patientService.create(patientData);
@@ -152,8 +152,8 @@ const EmergencyPage = () => {
   if (loading) return <Loading variant="grid" />;
   if (error) return <Error message={error} onRetry={loadEmergencyData} />;
 
-  const availableEmergencyBeds = emergencyBeds.filter(bed => bed.status === "Available").length;
-  const occupiedEmergencyBeds = emergencyBeds.filter(bed => bed.status === "Occupied").length;
+const availableEmergencyBeds = emergencyBeds.filter(bed => (bed.status_c || bed.status) === "Available").length;
+  const occupiedEmergencyBeds = emergencyBeds.filter(bed => (bed.status_c || bed.status) === "Occupied").length;
   const criticalPatients = triageQueue.filter(p => p.triagePriority === "Critical").length;
   const averageWaitTime = triageQueue.length > 0 ? Math.round(triageQueue.reduce((sum, p) => sum + p.waitTime, 0) / triageQueue.length) : 0;
 
@@ -267,9 +267,9 @@ const EmergencyPage = () => {
                       <div className="text-sm font-bold text-gray-500">
                         #{index + 1}
                       </div>
-                      <div>
-                        <p className="font-semibold text-gray-900">{patient.name}</p>
-                        <p className="text-sm text-gray-600">ID: {patient.id}</p>
+<div>
+                        <p className="font-semibold text-gray-900">{patient.name_c || patient.name}</p>
+                        <p className="text-sm text-gray-600">ID: {patient.id_c || patient.id}</p>
                         <p className="text-xs text-gray-500">
                           Wait: {patient.waitTime}min | Arrival: {new Date(patient.arrivalTime).toLocaleTimeString()}
                         </p>
@@ -313,27 +313,27 @@ const EmergencyPage = () => {
                   key={bed.Id}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className={`p-4 rounded-lg border-2 transition-all duration-200 ${
-                    bed.status === "Available"
+className={`p-4 rounded-lg border-2 transition-all duration-200 ${
+                    (bed.status_c || bed.status) === "Available"
                       ? "border-success bg-green-50"
-                      : bed.status === "Occupied"
+                      : (bed.status_c || bed.status) === "Occupied"
                       ? "border-error bg-red-50"
                       : "border-warning bg-yellow-50"
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-semibold">Bed {bed.number}</span>
-                    <Badge variant={bed.status === "Available" ? "success" : bed.status === "Occupied" ? "error" : "warning"}>
-                      {bed.status}
+<div className="flex items-center justify-between mb-2">
+                    <span className="font-semibold">Bed {bed.number_c || bed.number}</span>
+                    <Badge variant={(bed.status_c || bed.status) === "Available" ? "success" : (bed.status_c || bed.status) === "Occupied" ? "error" : "warning"}>
+                      {bed.status_c || bed.status}
                     </Badge>
                   </div>
-                  {bed.patientId && (
+{(bed.patient_id_c || bed.patientId) && (
                     <p className="text-sm text-gray-600">
-                      Patient: {emergencyPatients.find(p => p.id === bed.patientId)?.name || "Unknown"}
+                      Patient: {emergencyPatients.find(p => (p.id_c || p.id) === (bed.patient_id_c || bed.patientId))?.name_c || emergencyPatients.find(p => (p.id_c || p.id) === (bed.patient_id_c || bed.patientId))?.name || "Unknown"}
                     </p>
                   )}
-                  <p className="text-xs text-gray-500">
-                    Last cleaned: {new Date(bed.lastCleaned).toLocaleDateString()}
+<p className="text-xs text-gray-500">
+                    Last cleaned: {new Date(bed.last_cleaned_c || bed.lastCleaned).toLocaleDateString()}
                   </p>
                 </motion.div>
               ))}
@@ -396,23 +396,23 @@ const EmergencyPage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     label="Full Name"
-                    required
-                    value={newEmergencyPatient.name}
-                    onChange={(e) => setNewEmergencyPatient({...newEmergencyPatient, name: e.target.value})}
+required
+                    value={newEmergencyPatient.name_c}
+                    onChange={(e) => setNewEmergencyPatient({...newEmergencyPatient, name_c: e.target.value})}
                   />
                   <FormField
                     label="Date of Birth"
                     type="date"
                     required
-                    value={newEmergencyPatient.dateOfBirth}
-                    onChange={(e) => setNewEmergencyPatient({...newEmergencyPatient, dateOfBirth: e.target.value})}
+                    value={newEmergencyPatient.date_of_birth_c}
+                    onChange={(e) => setNewEmergencyPatient({...newEmergencyPatient, date_of_birth_c: e.target.value})}
                   />
                   <div className="space-y-2">
                     <Label>Gender *</Label>
                     <select
                       required
-                      value={newEmergencyPatient.gender}
-                      onChange={(e) => setNewEmergencyPatient({...newEmergencyPatient, gender: e.target.value})}
+                      value={newEmergencyPatient.gender_c}
+                      onChange={(e) => setNewEmergencyPatient({...newEmergencyPatient, gender_c: e.target.value})}
                       className="w-full h-10 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                     >
                       <option value="">Select Gender</option>
@@ -424,20 +424,20 @@ const EmergencyPage = () => {
                   <FormField
                     label="Contact Number"
                     required
-                    value={newEmergencyPatient.contact}
-                    onChange={(e) => setNewEmergencyPatient({...newEmergencyPatient, contact: e.target.value})}
+                    value={newEmergencyPatient.contact_c}
+                    onChange={(e) => setNewEmergencyPatient({...newEmergencyPatient, contact_c: e.target.value})}
                   />
                   <FormField
                     label="Emergency Contact"
                     required
-                    value={newEmergencyPatient.emergencyContact}
-                    onChange={(e) => setNewEmergencyPatient({...newEmergencyPatient, emergencyContact: e.target.value})}
+                    value={newEmergencyPatient.emergency_contact_c}
+                    onChange={(e) => setNewEmergencyPatient({...newEmergencyPatient, emergency_contact_c: e.target.value})}
                   />
                   <div className="space-y-2">
                     <Label>Blood Type</Label>
                     <select
-                      value={newEmergencyPatient.bloodType}
-                      onChange={(e) => setNewEmergencyPatient({...newEmergencyPatient, bloodType: e.target.value})}
+                      value={newEmergencyPatient.blood_type_c}
+                      onChange={(e) => setNewEmergencyPatient({...newEmergencyPatient, blood_type_c: e.target.value})}
                       className="w-full h-10 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                     >
                       <option value="">Select Blood Type</option>

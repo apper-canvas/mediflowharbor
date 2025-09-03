@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/atoms/Card";
-import Button from "@/components/atoms/Button";
-import Badge from "@/components/atoms/Badge";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Empty from "@/components/ui/Empty";
-import ApperIcon from "@/components/ApperIcon";
-import bedService from "@/services/api/bedService";
-import patientService from "@/services/api/patientService";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms/Card";
 import { toast } from "react-toastify";
 import { cn } from "@/utils/cn";
+import bedService from "@/services/api/bedService";
+import patientService from "@/services/api/patientService";
+import ApperIcon from "@/components/ApperIcon";
+import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
 
 const BedsPage = () => {
   const [beds, setBeds] = useState([]);
@@ -64,23 +64,23 @@ const BedsPage = () => {
   };
 
   const getPatientName = (patientId) => {
-    const patient = patients.find(p => p.id === patientId);
+const patient = patients.find(p => (p.id_c || p.id) === patientId);
     return patient ? patient.name : "Unknown Patient";
   };
 
   const getAvailablePatients = () => {
-    return patients.filter(p => p.status !== "Discharged" && !p.currentWard);
+return patients.filter(p => (p.status_c || p.status) !== "Discharged" && !(p.current_ward_c || p.currentWard));
   };
 
   const filteredBeds = beds.filter(bed => {
-    if (selectedWard === "All") return true;
-    return bed.ward === selectedWard;
+if (selectedWard === "All") return true;
+    return (bed.ward_c || bed.ward) === selectedWard;
   });
 
   const wardStats = wards.slice(1).map(ward => {
-    const wardBeds = beds.filter(b => b.ward === ward);
-    const occupied = wardBeds.filter(b => b.status === "Occupied").length;
-    const available = wardBeds.filter(b => b.status === "Available").length;
+    const wardBeds = beds.filter(b => (b.ward_c || b.ward) === ward);
+    const occupied = wardBeds.filter(b => (b.status_c || b.status) === "Occupied").length;
+    const available = wardBeds.filter(b => (b.status_c || b.status) === "Available").length;
     const maintenance = wardBeds.filter(b => b.status === "Maintenance").length;
     
     return {
@@ -227,30 +227,30 @@ const BedsPage = () => {
                 bed.status === "Available" && "ring-2 ring-success ring-opacity-20",
                 bed.status === "Occupied" && "ring-2 ring-error ring-opacity-20",
                 bed.status === "Maintenance" && "ring-2 ring-warning ring-opacity-20"
-              )}>
+)}>
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center space-x-2">
-                      <ApperIcon name={getBedIcon(bed.type)} size={20} className="text-primary" />
-                      <span className="font-semibold text-gray-900">{bed.ward} - {bed.number}</span>
+                      <ApperIcon name={getBedIcon(bed.type_c || bed.type)} size={20} className="text-primary" />
+                      <span className="font-semibold text-gray-900">{bed.ward_c || bed.ward} - {bed.number_c || bed.number}</span>
                     </div>
-                    <Badge variant={getBedStatusColor(bed.status)}>
-                      {bed.status}
+                    <Badge variant={getBedStatusColor(bed.status_c || bed.status)}>
+                      {bed.status_c || bed.status}
                     </Badge>
                   </div>
 
                   <div className="space-y-2 text-sm text-gray-600 mb-4">
-                    <p>Type: <span className="font-medium">{bed.type}</span></p>
-                    {bed.patientId && (
-                      <p>Patient: <span className="font-medium">{getPatientName(bed.patientId)}</span></p>
+                    <p>Type: <span className="font-medium">{bed.type_c || bed.type}</span></p>
+                    {(bed.patient_id_c || bed.patientId) && (
+                      <p>Patient: <span className="font-medium">{getPatientName(bed.patient_id_c || bed.patientId)}</span></p>
                     )}
                     <p>Last Cleaned: <span className="font-medium">
-                      {new Date(bed.lastCleaned).toLocaleDateString()}
+                      {new Date(bed.last_cleaned_c || bed.lastCleaned).toLocaleDateString()}
                     </span></p>
                   </div>
 
-                  <div className="flex space-x-2">
-                    {bed.status === "Available" && (
+<div className="flex space-x-2">
+                    {(bed.status_c || bed.status) === "Available" && (
                       <Button
                         size="sm"
                         variant="primary"
@@ -263,7 +263,7 @@ const BedsPage = () => {
                         Assign
                       </Button>
                     )}
-                    {bed.status === "Occupied" && (
+                    {(bed.status_c || bed.status) === "Occupied" && (
                       <Button
                         size="sm"
                         variant="outline"
@@ -313,20 +313,20 @@ const BedsPage = () => {
                   No available patients to assign
                 </p>
               ) : (
-                <div className="space-y-2 max-h-60 overflow-y-auto">
+<div className="space-y-2 max-h-60 overflow-y-auto">
                   {getAvailablePatients().map((patient) => (
                     <button
-                      key={patient.Id}
-                      onClick={() => handleAssignPatient(selectedBed.Id, patient.id)}
+                      key={patient.id_c || patient.id}
+                      onClick={() => handleAssignPatient(selectedBed.Id, patient.id_c || patient.id)}
                       className="w-full p-3 text-left bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors duration-200"
                     >
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="font-medium text-gray-900">{patient.name}</p>
-                          <p className="text-sm text-gray-500">ID: {patient.id}</p>
+                          <p className="font-medium text-gray-900">{patient.name_c || patient.name}</p>
+                          <p className="text-sm text-gray-500">ID: {patient.id_c || patient.id}</p>
                         </div>
-                        <Badge variant={patient.status.toLowerCase()}>
-                          {patient.status}
+                        <Badge variant={(patient.status_c || patient.status || '').toLowerCase()}>
+                          {patient.status_c || patient.status}
                         </Badge>
                       </div>
                     </button>

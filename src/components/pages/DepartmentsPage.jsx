@@ -39,16 +39,16 @@ const DepartmentsPage = () => {
   };
 
   const getDepartmentStats = (deptName) => {
-    const deptStaff = staff.filter(s => s.department === deptName);
-    const deptBeds = beds.filter(b => b.ward === deptName || (deptName === "General Medicine" && b.ward === "General"));
+const deptStaff = staff.filter(s => (s.department_c || s.department) === deptName);
+    const deptBeds = beds.filter(b => (b.ward_c || b.ward) === deptName || (deptName === "General Medicine" && (b.ward_c || b.ward) === "General"));
     
-    const doctors = deptStaff.filter(s => s.role === "Doctor").length;
-    const nurses = deptStaff.filter(s => s.role === "Nurse").length;
-    const onDuty = deptStaff.filter(s => s.shift === "Day").length;
+    const doctors = deptStaff.filter(s => (s.role_c || s.role) === "Doctor").length;
+    const nurses = deptStaff.filter(s => (s.role_c || s.role) === "Nurse").length;
+    const onDuty = deptStaff.filter(s => (s.shift_c || s.shift) === "Day").length;
     
     const totalBeds = deptBeds.length;
-    const occupiedBeds = deptBeds.filter(b => b.status === "Occupied").length;
-    const availableBeds = deptBeds.filter(b => b.status === "Available").length;
+    const occupiedBeds = deptBeds.filter(b => (b.status_c || b.status) === "Occupied").length;
+    const availableBeds = deptBeds.filter(b => (b.status_c || b.status) === "Available").length;
 
     return {
       name: deptName,
@@ -238,21 +238,21 @@ const DepartmentsPage = () => {
                               className="flex items-center justify-between p-3 bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg hover:shadow-md transition-all duration-200"
                             >
                               <div className="flex items-center space-x-3">
-                                <div className="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center">
-                                  <ApperIcon name={getRoleIcon(staffMember.role)} size={14} className="text-white" />
-                                </div>
-                                <div>
-                                  <p className="font-medium text-sm text-gray-900">{staffMember.name}</p>
-                                  <p className="text-xs text-gray-500">{staffMember.specialization}</p>
-                                </div>
+<div className="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center">
+                                <ApperIcon name={getRoleIcon(staffMember.role_c || staffMember.role)} size={14} className="text-white" />
                               </div>
-                              <div className="flex items-center space-x-2">
-                                <Badge variant={staffMember.shift === "Day" ? "success" : "warning"} className="text-xs">
-                                  {staffMember.shift}
-                                </Badge>
-                                <Badge variant="outline" className="text-xs">
-                                  {staffMember.role}
-                                </Badge>
+                              <div>
+                                <p className="font-medium text-sm text-gray-900">{staffMember.name_c || staffMember.name}</p>
+                                <p className="text-xs text-gray-500">{staffMember.specialization_c || staffMember.specialization}</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <Badge variant={(staffMember.shift_c || staffMember.shift) === "Day" ? "success" : "warning"} className="text-xs">
+                                {staffMember.shift_c || staffMember.shift}
+                              </Badge>
+                              <Badge variant="outline" className="text-xs">
+                                {staffMember.role_c || staffMember.role}
+                              </Badge>
                               </div>
                             </div>
                           ))

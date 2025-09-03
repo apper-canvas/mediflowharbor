@@ -21,14 +21,14 @@ const AppointmentsPage = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showAddForm, setShowAddForm] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState("All");
-  const [newAppointment, setNewAppointment] = useState({
-    patientId: "",
-    doctorId: "",
-    department: "",
-    dateTime: "",
-    duration: 30,
-    type: "",
-    notes: ""
+const [newAppointment, setNewAppointment] = useState({
+    patient_id_c: "",
+    doctor_id_c: "",
+    department_c: "",
+    date_time_c: "",
+    duration_c: 30,
+    type_c: "",
+    notes_c: ""
   });
 
   const departments = ["All", "Cardiology", "General Medicine", "Orthopedics", "Obstetrics", "Emergency"];
@@ -68,8 +68,8 @@ const AppointmentsPage = () => {
     }
   };
 
-  const filteredAppointments = appointments.filter(appointment => {
-    if (selectedDepartment !== "All" && appointment.department !== selectedDepartment) {
+const filteredAppointments = appointments.filter(appointment => {
+    if (selectedDepartment !== "All" && (appointment.department_c || appointment.department) !== selectedDepartment) {
       return false;
     }
     return true;
@@ -83,7 +83,7 @@ const AppointmentsPage = () => {
 
   const getAppointmentsForDate = (date) => {
     return filteredAppointments.filter(appointment =>
-      isSameDay(parseISO(appointment.dateTime), date)
+isSameDay(parseISO(appointment.date_time_c || appointment.dateTime), date)
     );
   };
 
@@ -175,25 +175,25 @@ const AppointmentsPage = () => {
             <form onSubmit={handleAddAppointment} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
-                  label="Patient ID"
+label="Patient ID"
                   required
                   placeholder="P001"
-                  value={newAppointment.patientId}
-                  onChange={(e) => setNewAppointment({...newAppointment, patientId: e.target.value})}
+                  value={newAppointment.patient_id_c}
+                  onChange={(e) => setNewAppointment({...newAppointment, patient_id_c: e.target.value})}
                 />
                 <FormField
                   label="Doctor ID"
                   required
                   placeholder="D001"
-                  value={newAppointment.doctorId}
-                  onChange={(e) => setNewAppointment({...newAppointment, doctorId: e.target.value})}
+                  value={newAppointment.doctor_id_c}
+                  onChange={(e) => setNewAppointment({...newAppointment, doctor_id_c: e.target.value})}
                 />
                 <div className="space-y-2">
                   <Label>Department *</Label>
                   <select
                     required
-                    value={newAppointment.department}
-                    onChange={(e) => setNewAppointment({...newAppointment, department: e.target.value})}
+                    value={newAppointment.department_c}
+                    onChange={(e) => setNewAppointment({...newAppointment, department_c: e.target.value})}
                     className="w-full h-10 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                   >
                     <option value="">Select Department</option>
@@ -206,8 +206,8 @@ const AppointmentsPage = () => {
                   <Label>Appointment Type *</Label>
                   <select
                     required
-                    value={newAppointment.type}
-                    onChange={(e) => setNewAppointment({...newAppointment, type: e.target.value})}
+                    value={newAppointment.type_c}
+                    onChange={(e) => setNewAppointment({...newAppointment, type_c: e.target.value})}
                     className="w-full h-10 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                   >
                     <option value="">Select Type</option>
@@ -222,16 +222,16 @@ const AppointmentsPage = () => {
                   label="Date & Time"
                   type="datetime-local"
                   required
-                  value={newAppointment.dateTime}
-                  onChange={(e) => setNewAppointment({...newAppointment, dateTime: e.target.value})}
+                  value={newAppointment.date_time_c}
+                  onChange={(e) => setNewAppointment({...newAppointment, date_time_c: e.target.value})}
                 />
                 <FormField
                   label="Duration (minutes)"
                   type="number"
                   min="15"
                   max="240"
-                  value={newAppointment.duration}
-                  onChange={(e) => setNewAppointment({...newAppointment, duration: parseInt(e.target.value)})}
+                  value={newAppointment.duration_c}
+                  onChange={(e) => setNewAppointment({...newAppointment, duration_c: parseInt(e.target.value)})}
                 />
               </div>
 
@@ -287,14 +287,14 @@ const AppointmentsPage = () => {
                       <div className="w-12 h-12 bg-gradient-to-r from-accent to-cyan-600 rounded-lg flex items-center justify-center">
                         <ApperIcon name="Calendar" size={20} className="text-white" />
                       </div>
-                      <div>
-                        <p className="font-semibold text-gray-900">{appointment.type}</p>
-                        <p className="text-sm text-gray-600">{appointment.department}</p>
+<div>
+                        <p className="font-semibold text-gray-900">{appointment.type_c || appointment.type}</p>
+                        <p className="text-sm text-gray-600">{appointment.department_c || appointment.department}</p>
                         <p className="text-sm text-gray-500">
-                          Patient: {appointment.patientId} | Doctor: {appointment.doctorId}
+                          Patient: {appointment.patient_id_c || appointment.patientId} | Doctor: {appointment.doctor_id_c || appointment.doctorId}
                         </p>
                         <p className="text-xs text-gray-400">
-                          {format(parseISO(appointment.dateTime), "PPP p")} ({appointment.duration} min)
+                          {format(parseISO(appointment.date_time_c || appointment.dateTime), "PPP p")} ({appointment.duration_c || appointment.duration} min)
                         </p>
                       </div>
                     </div>
@@ -351,11 +351,11 @@ const AppointmentsPage = () => {
                           key={appointment.Id}
                           className="p-2 bg-gradient-to-r from-primary to-secondary text-white rounded text-xs"
                         >
-                          <p className="font-medium">
-                            {format(parseISO(appointment.dateTime), "HH:mm")}
-                          </p>
-                          <p className="truncate">{appointment.type}</p>
-                          <p className="truncate opacity-80">{appointment.department}</p>
+<p className="font-medium">
+                          {format(parseISO(appointment.date_time_c || appointment.dateTime), "HH:mm")}
+                        </p>
+                        <p className="truncate">{appointment.type_c || appointment.type}</p>
+                        <p className="truncate opacity-80">{appointment.department_c || appointment.department}</p>
                         </div>
                       ))}
                     </div>
